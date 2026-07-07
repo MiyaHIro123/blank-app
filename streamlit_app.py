@@ -12,7 +12,7 @@ st.markdown("""
 <style>
 /* アプリ全体の背景 */
 .stApp {
-    background-color: #191970;
+    background-color: #4682b4;
 }
 
 /* 文字色を白に */
