@@ -1,5 +1,6 @@
 import streamlit as st
 import time
+from datetime import datetime
 
 st.set_page_config(
     page_title="TUS Archery",
@@ -37,12 +38,47 @@ with st.sidebar:
 # ページ表示
 st.header(st.session_state.page)
 
+
 # ------------------------
 # ホーム
 # ------------------------
 if st.session_state.page == "ホーム":
-    st.write("ホーム画面")
 
+    # 射数が未作成の場合
+    if "today_shots" not in st.session_state:
+        st.session_state.today_shots = 0
+
+    now = datetime.now()
+
+    st.subheader("ホーム")
+
+    # 日付
+    st.metric(
+        "日付",
+        now.strftime("%Y/%m/%d (%a)")
+    )
+
+    # 時間
+    clock = st.empty()
+    clock.metric(
+        "時間",
+        now.strftime("%H:%M:%S")
+    )
+
+    # 今日の射数
+    st.metric(
+        "今日の射数",
+        f"{st.session_state.today_shots} 射"
+    )
+
+    st.divider()
+
+    # ランキング（仮）
+    st.subheader("ランキング")
+
+    st.write("🥇 1位　---")
+    st.write("🥈 2位　---")
+    st.write("🥉 3位　---")
 # ------------------------
 # 射数管理
 # ------------------------
