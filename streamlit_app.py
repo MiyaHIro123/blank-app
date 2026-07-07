@@ -79,9 +79,9 @@ if st.session_state.page == "ホーム":
     st.write("🥉 3位　---")
     
     # 次の1分になるまで待って更新
-　　　seconds = datetime.now().second
-　　　time.sleep(60 - seconds)
-　　　st.rerun()
+    seconds = datetime.now().second
+    time.sleep(60 - seconds)
+    st.rerun()
 # ------------------------
 # 射数管理
 # ------------------------
