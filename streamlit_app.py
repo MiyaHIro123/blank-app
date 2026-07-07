@@ -50,7 +50,6 @@ if st.session_state.page == "ホーム":
 
     now = datetime.now()
 
-    st.subheader("ホーム")
 
     # 日付
     st.metric(
