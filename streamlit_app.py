@@ -59,10 +59,9 @@ if st.session_state.page == "ホーム":
     )
 
     # 時間
-    clock = st.empty()
-    clock.metric(
-        "時間",
-        now.strftime("%H:%M:%S")
+    st.metric(
+    "時間",
+    now.strftime("%H:%M")
     )
 
     # 今日の射数
@@ -79,6 +78,11 @@ if st.session_state.page == "ホーム":
     st.write("🥇 1位　---")
     st.write("🥈 2位　---")
     st.write("🥉 3位　---")
+    
+    # 次の1分になるまで待って更新
+　　　seconds = datetime.now().second
+　　　time.sleep(60 - seconds)
+　　　st.rerun()
 # ------------------------
 # 射数管理
 # ------------------------
