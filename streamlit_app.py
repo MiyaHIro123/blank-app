@@ -8,6 +8,26 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+st.markdown("""
+<style>
+/* アプリ全体の背景 */
+.stApp {
+    background-color: #0B1F4D;
+}
+
+/* 文字色を白に */
+.stApp, .stMarkdown, .stText, p, h1, h2, h3, h4, h5, h6, label {
+    color: white !important;
+}
+
+/* サイドバー */
+section[data-testid="stSidebar"] {
+    background-color: #142B66;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
 # 初期ページ
 if "page" not in st.session_state:
     st.session_state.page = "ホーム"
