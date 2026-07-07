@@ -54,69 +54,66 @@ elif st.session_state.page == "射数管理":
 # ------------------------
 elif st.session_state.page == "タイマー":
 
-    import time
+    # 初期化
+    if "remaining" not in st.session_state:
+        st.session_state.remaining = 120
 
-# 初期化
-if "remaining" not in st.session_state:
-    st.session_state.remaining = 120
-
-if "running" not in st.session_state:
-    st.session_state.running = False
-
-if "duration" not in st.session_state:
-    st.session_state.duration = 120
-
-st.subheader("タイマー")
-
-# 時間設定
-minutes = st.selectbox(
-    "時間",
-    [1, 2, 3, 4, 5],
-    index=1
-)
-
-if st.button("設定"):
-    st.session_state.duration = minutes * 60
-    st.session_state.remaining = minutes * 60
-    st.session_state.running = False
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    if st.button("▶ Start"):
-        st.session_state.running = True
-
-with col2:
-    if st.button("⏸ Stop"):
+    if "running" not in st.session_state:
         st.session_state.running = False
 
-with col3:
-    if st.button("↺ Reset"):
-        st.session_state.remaining = st.session_state.duration
+    if "duration" not in st.session_state:
+        st.session_state.duration = 120
+
+    st.subheader("タイマー")
+
+    # 時間設定
+    minutes = st.selectbox(
+        "時間",
+        [1, 2, 3, 4, 5],
+        index=1
+    )
+
+    if st.button("設定"):
+        st.session_state.duration = minutes * 60
+        st.session_state.remaining = minutes * 60
         st.session_state.running = False
 
-progress = st.session_state.remaining / st.session_state.duration
+    col1, col2, col3 = st.columns(3)
 
-st.progress(progress)
+    with col1:
+        if st.button("▶ Start"):
+            st.session_state.running = True
 
-m = st.session_state.remaining // 60
-s = st.session_state.remaining % 60
+    with col2:
+        if st.button("⏸ Stop"):
+            st.session_state.running = False
 
-st.markdown(
-    f"<h1 style='text-align:center'>{m:02}:{s:02}</h1>",
-    unsafe_allow_html=True
-)
+    with col3:
+        if st.button("↺ Reset"):
+            st.session_state.remaining = st.session_state.duration
+            st.session_state.running = False
 
-if st.session_state.running:
-    time.sleep(1)
-    st.session_state.remaining -= 1
+    progress = st.session_state.remaining / st.session_state.duration
+    st.progress(progress)
 
-    if st.session_state.remaining <= 0:
-        st.session_state.remaining = 0
-        st.session_state.running = False
-        st.success("終了！")
+    m = st.session_state.remaining // 60
+    s = st.session_state.remaining % 60
 
-    st.rerun()
+    st.markdown(
+        f"<h1 style='text-align:center'>{m:02}:{s:02}</h1>",
+        unsafe_allow_html=True
+    )
+
+    if st.session_state.running:
+        time.sleep(1)
+        st.session_state.remaining -= 1
+
+        if st.session_state.remaining <= 0:
+            st.session_state.remaining = 0
+            st.session_state.running = False
+            st.success("終了！")
+
+        st.rerun()
 # ------------------------
 # カレンダー
 # ------------------------
