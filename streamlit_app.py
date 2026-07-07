@@ -54,25 +54,69 @@ elif st.session_state.page == "射数管理":
 # ------------------------
 elif st.session_state.page == "タイマー":
 
-    minutes = st.number_input(
-        "時間（分）",
-        min_value=1,
-        max_value=60,
-        value=2
-    )
+    import time
 
-    if st.button("開始"):
-        total = minutes * 60
-        placeholder = st.empty()
+# 初期化
+if "remaining" not in st.session_state:
+    st.session_state.remaining = 120
 
-        for sec in range(total, -1, -1):
-            m = sec // 60
-            s = sec % 60
-            placeholder.metric("残り時間", f"{m:02}:{s:02}")
-            time.sleep(1)
+if "running" not in st.session_state:
+    st.session_state.running = False
 
-        st.success("終了")
+if "duration" not in st.session_state:
+    st.session_state.duration = 120
 
+st.subheader("タイマー")
+
+# 時間設定
+minutes = st.selectbox(
+    "時間",
+    [1, 2, 3, 4, 5],
+    index=1
+)
+
+if st.button("設定"):
+    st.session_state.duration = minutes * 60
+    st.session_state.remaining = minutes * 60
+    st.session_state.running = False
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    if st.button("▶ Start"):
+        st.session_state.running = True
+
+with col2:
+    if st.button("⏸ Stop"):
+        st.session_state.running = False
+
+with col3:
+    if st.button("↺ Reset"):
+        st.session_state.remaining = st.session_state.duration
+        st.session_state.running = False
+
+progress = st.session_state.remaining / st.session_state.duration
+
+st.progress(progress)
+
+m = st.session_state.remaining // 60
+s = st.session_state.remaining % 60
+
+st.markdown(
+    f"<h1 style='text-align:center'>{m:02}:{s:02}</h1>",
+    unsafe_allow_html=True
+)
+
+if st.session_state.running:
+    time.sleep(1)
+    st.session_state.remaining -= 1
+
+    if st.session_state.remaining <= 0:
+        st.session_state.remaining = 0
+        st.session_state.running = False
+        st.success("終了！")
+
+    st.rerun()
 # ------------------------
 # カレンダー
 # ------------------------
