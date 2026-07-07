@@ -47,7 +47,43 @@ if st.session_state.page == "ホーム":
 # 射数管理
 # ------------------------
 elif st.session_state.page == "射数管理":
-    st.write("射数管理画面")
+
+    # 初期値
+    if "today_shots" not in st.session_state:
+        st.session_state.today_shots = 0
+
+    if "editing_shots" not in st.session_state:
+        st.session_state.editing_shots = False
+
+    st.subheader("今日の射数")
+
+    col1, col2 = st.columns([3, 1])
+
+    with col1:
+        if st.session_state.editing_shots:
+            new_value = st.number_input(
+                "今日の射数",
+                min_value=0,
+                value=st.session_state.today_shots,
+                step=1
+            )
+
+            if st.button("保存"):
+                st.session_state.today_shots = new_value
+                st.session_state.editing_shots = False
+                st.rerun()
+
+        else:
+            st.markdown(
+                f"<h2>{st.session_state.today_shots} 射</h2>",
+                unsafe_allow_html=True
+            )
+
+    with col2:
+        if not st.session_state.editing_shots:
+            if st.button("✏️ 編集"):
+                st.session_state.editing_shots = True
+                st.rerun()
 
 # ------------------------
 # タイマー
